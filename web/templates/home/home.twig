@@ -1,0 +1,36 @@
+{% extends "layout.twig" %}
+
+{% block maincontent %}
+	<div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+		<div class="inner-wrap">
+
+
+
+<ol class="joyride-list" data-joyride>
+    <li data-id="firstStop" data-text="Go">
+        <p>Let's get started, here we have an intro.</p>
+    </li>
+    <li data-id="numero1" data-class="custom so-awesome" data-text="Next">
+        <h4>First Stop</h4>
+        <p>Here we use the new interchange function to change images based on screen size.</p>
+    </li>
+    <li data-id="numero2" data-button="Next" data-options="tipLocation:top;tipAnimation:fade">
+        <h4>Second Stop</h4>
+        <p>We are using pricing tables here to display a list of services from a hosting company.</p>
+    </li>
+    <li data-id="numero3" data-button="Next" data-options="tipLocation:top;tipAnimation:fade">
+        <h4>Third Stop</h4>
+    <p>This is just a link but it opens a modal with a standard table inside, exciting eh?</p>
+        </li>
+    <li data-button="End">
+        <h4>End Of The Line</h4>
+        <p>Our tour ends here, please remember to take all your belongings with you on your way to the exit.</p>
+    </li>
+</ol>
+
+		</div>
+	</div>
+{% endblock %}
+
+{% block mainjquery %}
+{% endblock %}

@@ -1,0 +1,78 @@
+.title-cover {
+	font-size: 60px;
+	color: #280B3E;
+}
+
+.principal-title-content{
+background:  #280B3E;
+font-weight: bold;
+padding: 2px;
+border-bottom: 5px solid #53B0F0;
+margin-bottom: 20px;
+}
+
+.principal-title-content span{
+text-align: left;
+color:#fff;
+}
+
+.marker-string {
+	color: #F00;
+}
+.title-box-code {
+	text-align: right;
+	color: #999;
+}
+
+
+/*****Code******/
+
+.code {
+margin: 0px auto;
+width: 50%;
+padding: 0.5em;
+background: #eee;
+color: #333;
+height: auto;
+border: 1px solid silver;
+margin-bottom: 0px;
+font-size:10px;
+}
+
+.code-container {
+margin: 0px 0px;
+padding: 0px;
+overflow-x: auto;
+line-height: 1.2rem;
+font-weight: normal;
+
+}
+
+.com {
+color: #800;
+}
+.tag {
+color: #008;
+}
+.atn {
+color: #606;
+}
+.atv {
+color: #080;
+}
+
+.kwd {
+color: #008;
+}
+.pun, {
+color: #660;
+}
+.string{
+color: #d14;
+}
+.pln{
+	color:#EC6B15;
+}
+.stringOff{
+	color: #099;
+}

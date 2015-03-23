@@ -1,0 +1,77 @@
+{% extends "layout.twig" %}
+
+{% block maincontent %}
+    <div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+        <div class="inner-wrap">
+            <div class="row full-height split-page signup-panel" style="padding:20px;">
+                <div class="large-6 columns">
+                    <div class="signup-panel">
+                        <h2 class="form-signin-heading">Por favor, inicie sesión</h2>
+
+                        <div class="row collapse">
+                            <div class="small-2  columns">
+                                <span class="prefix"><i class="fi-torso-female"></i></span>
+                            </div>
+                            <div class="small-10  columns">
+                                <input type="text" id="username" placeholder="User"  name="username" >
+                            </div>
+                        </div>
+
+                        <div class="row collapse">
+                            <div class="small-2  columns">
+                                <span class="prefix"><i class="fi-lock"></i></span>
+                            </div>
+                            <div class="small-10  columns">
+                                <input type="password" id="userpass" placeholder="Password" name="userpass" >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-login" >Iniciar sesión</button>
+                    </div>
+                </div>
+            </div>
+            <a class="exit-off-canvas"></a>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+
+{% block mainjquery %}
+$(document).ready(function(){
+
+
+    $(".btn-login").click(function(e){
+        var username = $("#username").val();
+        var userpass = $("#userpass").val();
+
+        jQuery.ajax({
+            url: basepath+'/index.php/crud/login/init',
+            type: 'POST',
+            async: true,
+            data: {
+                params:[username, userpass ]
+            },
+            dataType: 'json',
+            beforeSend: function(xhr){
+                $.fancybox.showLoading();
+            },
+            success: function(json){
+                if( !json.status){
+                    modal_sms(json.message);
+                    return false;
+                }
+                    top.location=basepath+'/index.php/sale';
+            },  
+            complete: function(xhr, textStatus){
+                jQuery.fancybox.hideLoading();
+            }
+        });
+
+    });
+
+});
+{% endblock %}

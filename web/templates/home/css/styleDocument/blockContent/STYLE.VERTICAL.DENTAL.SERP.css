@@ -1,0 +1,112 @@
+.title-cover {
+	font-size: 60px;
+	color: #280B3E;
+	font-weight: bold;
+	text-align: center;
+	margin:auto;
+}
+.content-cover{
+	width:100%;
+}
+.sub-title {
+	font-weight: bold;
+	color: #FFF;
+	background: #280B3E;
+	width: 100%;
+	float: left;
+	padding: 5px;
+	border-bottom: 3px solid #53B0F0;
+	margin: 20px 0px 20px 0px;
+}
+.paragraph {
+	text-align: justify;
+	margin: 20px 0px 20px 0px;
+}
+.bold-text {
+	font-weight: bold;
+}
+.mark-red-string {
+	color: #F00;
+}
+.italic-text {
+	font-style: italic;
+	font-weight: bold;
+}
+.bold-underline-string {
+	font-weight: bold;
+	text-decoration:underline;
+}
+.mark-blue {
+	color: #06C;
+}
+.link-box{
+	background: #F0F0F0;
+	width: 100%;
+	padding: 10px;
+	float: left;
+	border: 1px solid #BBB
+}
+
+.box-title-rigth {
+	font-weight: bold;
+	color: #CCC;
+	text-align: right;
+	font-style: italic;
+}
+
+/*****Code******/
+
+.code {
+	margin: 0px auto;
+	width: 80%;
+	padding: 0.5em;
+	background: #eee;
+	color: #333;
+	height: auto;
+	border: 1px solid silver;
+	margin-bottom: 0px;
+	font-size:10px;
+}
+
+.code-container {
+	margin: 0px 0px;
+	padding: 0px;
+	overflow-x: auto;
+	line-height: 1.2rem;
+	font-weight: normal;
+}
+
+.com {
+	color: #800;
+}
+.tag {
+	color: #008;
+}
+.atn {
+	color: #606;
+}
+.atv {
+	color: #080;
+}
+.kwd {
+	color: #008;
+}
+.pun, {
+	color: #660;
+}
+.string{
+	color: #d14;
+}
+.pln{
+	color:#EC6B15;
+}
+.stringOff{
+	color: #099;
+}
+/*****Code******/
+
+.break-space{
+width: 100%;
+height: 4%;
+float:left;
+}

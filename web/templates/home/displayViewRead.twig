@@ -1,0 +1,27 @@
+{% extends "layout.twig" %}
+
+{% block maincontent %}
+	<div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+		<div class="inner-wrap">
+		{{table|raw}}
+		</div>
+	</div>
+{% endblock %}
+
+{% block mainjquery %}
+	$('#save-btn').click(function(){
+		$("#display-form-create").documentGenerator("_vertical",{metod:"register"});
+	});
+
+	$( ".inner-wrap" ).delegate( ".update-display", "click", function() {
+		var id = $(this).attr('id-display');
+		$(this).documentGenerator("_viewUpdateDisplay",{metod:"viewUpdate",id:id});
+	});
+
+	$( ".inner-wrap" ).delegate( "#update-btn", "click", function() {
+		var params = $('#display-form-update').serialize();
+		$("#display-form-update").documentGenerator("_updateDisplay",{data:params});
+	});
+	
+
+{% endblock %}

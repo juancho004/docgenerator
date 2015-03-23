@@ -1,0 +1,43 @@
+
+<html>
+<head>
+    <!-- <title></title> -->
+    <link href="{{ app.request.basepath }}/templates/home/images/favicon.ico" rel="shortcut icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="{{ app.request.basepath }}/templates/home/js/vendor/jquery.js"></script>
+    <script src="{{ app.request.basepath }}/templates/home/js/foundation.min.js"></script>
+
+    <link rel="stylesheet" href="{{ app.request.basepath }}/templates/home/css/joyride-2.1.css" />
+
+    <link rel="stylesheet" href="{{ app.request.basepath }}/templates/home/css/foundation.css" />
+    <link rel="stylesheet" href="{{ app.request.basepath }}/templates/home/css/style.css" />
+    <link href="{{ app.request.basepath }}/templates/home/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{{ app.request.basepath }}/templates/home/foundation-icons/foundation-icons.css" />
+    <script type="text/javascript">
+        $(document).foundation().foundation('joyride', 'start');
+    </script>
+</head>
+<body>
+    <div class="inner-wrap">
+        {% block maincontent %}
+        {% endblock %}
+    </div>
+    <script src="{{ app.request.basepath }}/templates/home/js/modernizr.mq.js"></script>
+    <script src="{{ app.request.basepath }}/templates/home/js/jquery.joyride-2.1.js"></script>
+
+    <script src="{{ app.request.basepath }}/templates/home/js/documentGenerator.js"></script>
+    <script src="{{ app.request.basepath }}/templates/home/js/vendor/fastclick.js"></script>
+    <script src="{{ app.request.basepath }}/templates/home/js/vendor/modernizr.js"></script>
+    <!--script src="{{ app.request.basepath }}/templates/home/js/vendor/jquery.cookie.js"></script-->
+    <script type="text/javascript" src="{{ app.request.basepath }}/templates/home/fancybox/jquery.fancybox.js"></script>
+    
+    <script type="text/javascript">
+        var basepath = "{{ app.request.basepath }}";
+        
+        $(document).ready(function(){
+            {% block mainjquery %}
+            {% endblock %}
+        });
+    </script>
+</body>
+</html>

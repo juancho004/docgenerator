@@ -1,0 +1,16 @@
+{% extends "layout.twig" %}
+
+{% block maincontent %}
+	<div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+		<div class="inner-wrap">
+		{{table|raw}}
+		</div>
+	</div>
+{% endblock %}
+
+{% block mainjquery %}
+	$('#save-btn').click(function(){
+		$("#display-form-create").documentGenerator("_registerDisplay",{metod:"register",form:"display-form-create"});
+	});
+	
+{% endblock %}

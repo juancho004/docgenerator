@@ -1,0 +1,64 @@
+{% extends "layout.twig" %}
+
+{% block maincontent %}
+	<div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+		<div class="inner-wrap">
+		{{table|raw}}
+		</div>
+	</div>
+{% endblock %}
+
+{% block mainjquery %}
+
+	$( ".inner-wrap" ).delegate( "#save-btn", "click", function() {
+		$("#blockcontent-form-create").documentGenerator("_vertical",{metod:"register"});
+	});
+
+	$( ".inner-wrap" ).delegate( ".update-blockcontent", "click", function() {
+		var id = $(this).attr('id-blockcontent');
+		$(this).documentGenerator("_viewUpdateBlockcontent",{metod:"viewUpdate",id:id});
+	});
+
+	$( ".inner-wrap" ).delegate( "#update-btn", "click", function() {
+		var params = $('#blockcontent-form-update').serialize();
+		$("#blockcontent-form-update").documentGenerator("_updateBlockContent",{data:params});
+	});
+
+	$( ".inner-wrap" ).delegate( ".prev-blockcontent", "click", function() {
+		var id = $(this).attr('id-blockcontent');
+		$(this).documentGenerator("_prevBlockContent",{id:id});
+	});
+
+	$( ".inner-wrap" ).delegate( "#textareacontent", "focusout", function() {
+		var htmlContent = $("#textareacontent").val();
+		var cssContent = $("#textareastylesheet").val();
+		$(this).documentGenerator("preview",{html:htmlContent,css:cssContent});
+	});
+
+	$( ".inner-wrap" ).delegate( "#textareastylesheet", "focusout", function() {
+		var htmlContent = $("#textareacontent").val();
+		var cssContent = $("#textareastylesheet").val();
+		$(this).documentGenerator("preview",{html:htmlContent,css:cssContent});
+	});
+	
+	$( ".inner-wrap" ).delegate( "#option-colapse", "click", function() {
+		optionActive = $(this).attr('class');
+
+		if(optionActive == 'expand' ){
+			$(this).removeClass('expand');
+			$(this).addClass('compres');
+			$('.block-content').slideToggle( "slow" );
+			$('#option-colapse img').attr('src',basepath+'/templates/home/foundation-icons/svgs/fi-arrows-in.svg');
+		}else{
+			$(this).removeClass('compres');
+			$(this).addClass('expand');
+			$('.block-content').slideToggle( "slow" );
+			$('#option-colapse img').attr('src',basepath+'/templates/home/foundation-icons/svgs/fi-arrows-out.svg');
+		}
+
+		
+	});
+
+
+
+{% endblock %}

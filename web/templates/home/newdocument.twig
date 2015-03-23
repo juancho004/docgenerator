@@ -1,0 +1,260 @@
+{% extends "layout.twig" %}
+
+{% block maincontent %}
+
+
+		{{table|raw}}
+    <ol id="joyRideTipContent">
+      
+      <li data-class="tour-status" data-text="Next" class="custom">
+        <h2>Status</h2>
+        <p>Indicates the status of the document, <img src="{{ app.request.basepath }}/templates/home/foundation-icons/svgs/fi-clock.svg" width="30"/> = generated pending, <img src="{{ app.request.basepath }}/templates/home/foundation-icons/svgs/fi-checkbox.svg" width="30"/> = Ready for download.</p>
+      </li>
+      
+      <li data-class="tour-edit" data-button="Next" data-options="tipLocation:top;tipAnimation:fade">
+        <h2>Edit</h2>
+        <p> <img src="{{ app.request.basepath }}/templates/home/foundation-icons/svgs/fi-widget.svg" width="30"/> = Update the document.</p>
+      </li>
+
+       <li data-class="tour-download" data-button="Next" data-options="tipLocation:top;tipAnimation:fade">
+        <h2>Download</h2>
+        <p><img src="{{ app.request.basepath }}/templates/home/foundation-icons/svgs/fi-download.svg" width="30"/> = Ready for download, <img src="{{ app.request.basepath }}/templates/home/foundation-icons/svgs/fi-key.svg" width="30"/> = Document not generated.</p>
+      </li>
+
+    </ol>
+
+
+
+{% endblock %}
+
+
+{% block mainjquery %}
+
+
+
+	function getToolTipClear(columId)
+	{
+		var textoTooltip = '<a href="#" class="clean-input">Click to clean.</a>';
+		var positionTool = $('#'+columId).position();
+		columPosition="filter-form";
+
+		if (textoTooltip.length > 0) {
+			jQuery('#'+columPosition).append('<div class="tooltip">' + textoTooltip + '</div>');
+			jQuery("#"+columPosition+" > div.tooltip").css("left", positionTool.left+"px");
+			jQuery("#"+columPosition+" > div.tooltip").css("top", (positionTool.top-40 )+"px");
+			jQuery("#"+columPosition+" > div.tooltip").fadeIn(300);
+		}
+
+		$('.clean-input').click(function(){
+			$('#'+columId+" input").val('');
+			$('#'+columId+" input").addClass('hidden-input-search');
+			$('#'+columId+' span').removeClass('hidden-input-search');
+			ajaxFilter();
+		});
+	}
+
+
+	$( ".inner-wrap" ).delegate( ".numeric", "keypress", function(tecla) {
+        if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+    });
+
+	function ajaxFilter()
+	{
+		var dataFilter = $('#filter-form').serializeArray();
+		jQuery.ajax({
+			url: basepath+'/index.php/document/search',
+			type: 'POST',
+			data: {
+				data: dataFilter
+			},
+			dataType: 'json',
+			beforeSend: function(xhr){
+				$.fancybox.showLoading();
+			},
+			success: function(json){
+			 	$('#data-document').html(json.content);
+			},	
+			complete: function(xhr, textStatus){
+				jQuery.fancybox.hideLoading();
+			}
+		});
+	}
+
+
+	$( ".inner-wrap" ).delegate( ".colum-search", "click", function(event) {
+
+		var columSearch = $(this).attr('id');
+		var columSelected = $("#"+columSearch+" input");
+		var titleSelected = $("#"+columSearch+" span");
+		if( columSelected.hasClass('hidden-input-search') ){
+			columSelected.removeClass('hidden-input-search').focus();
+			titleSelected.addClass('hidden-input-search');
+			getToolTipClear(columSearch);
+		}
+
+	});
+
+	$( ".inner-wrap" ).delegate( ".input-search", "focusin", function(event) {
+
+		var columSelected = $(this).parent().attr('id');
+		getToolTipClear(columSelected);
+
+	});
+
+
+	$( ".inner-wrap" ).delegate( ".input-search", "focusout", function(event) {
+		var valueInput = $(this).val();
+		var columSelected = $(this).parent().attr('id');
+		if(valueInput == "" ){
+			$(this).addClass('hidden-input-search');
+			$('#'+columSelected+' span').removeClass('hidden-input-search');
+			ajaxFilter();
+		}else{
+			ajaxFilter();
+		}
+		
+		jQuery("#filter-form > div.tooltip").fadeOut(300).delay(300).queue(function () {
+			jQuery(this).remove();
+			jQuery(this).dequeue();
+		});
+		
+	});
+
+
+	$( ".inner-wrap" ).delegate( ".input-search", "keydown", function(tecla) {
+
+		if (tecla.keyCode == 13) {
+			var valueInput = $(this).val();
+			var columSelected = $(this).parent().attr('id');
+			if(valueInput == "" ){
+				$(this).addClass('hidden-input-search');
+				$('#'+columSelected+' span').removeClass('hidden-input-search');
+				ajaxFilter();
+			}else{
+				ajaxFilter();
+			}
+		}
+
+		
+	});
+
+
+	$( ".inner-wrap" ).delegate( "#selecctall", "click", function(event) {
+        if(this.checked) { 
+            $('.document-item').each(function() { 
+                this.checked = true;              
+            });
+        }else{
+            $('.document-item').each(function() {
+                this.checked = false;                      
+            });         
+        }
+    });
+
+    $( ".inner-wrap" ).delegate( "#generate-selected-document", "click", function(event) {
+    	var listIdDocument = $(".document-item").serializeArray();
+    	jQuery.ajax({
+			url: basepath+'/index.php/document/generate/false',
+			type: 'POST',
+			data: {
+				listDocument:listIdDocument
+			},
+			dataType: 'json',
+			beforeSend: function(xhr){
+				$.fancybox.showLoading();
+			},
+			success: function(json){
+				$('.reveal-modal').remove();
+				$('.reveal-modal').remove();
+				$(".inner-wrap").html(json.content);
+				$('body').append('<div id="added2cart" class="reveal-modal small" data-reveal><center><h5>'+ json.message +'</h5></center><a class="close-reveal-modal">&#215;</a></div>');
+				$('#added2cart').foundation('reveal', 'open');
+				$('.tooltip').remove();
+
+			},	
+			complete: function(xhr, textStatus){
+				jQuery.fancybox.hideLoading();
+			}
+		});
+    	
+    });
+
+    
+
+
+/*
+      $(window).load(function() {
+        $('#joyRideTipContent').joyride({
+          autoStart : true,
+          postStepCallback : function (index, tip) {
+          if (index == 2) {
+            $(this).joyride('set_li', false, 1);
+          }
+        },
+        modal:true,
+        expose: true
+        });
+      });
+*/
+
+	$( ".inner-wrap" ).delegate( ".generate-doc", "click", function() {
+		var id = $(this).attr("id-doc");
+		$(this).documentGenerator("_generateDocument",{id:id});
+	});
+
+	$( ".inner-wrap" ).delegate( ".update-doc", "click", function() {
+		var id = $(this).attr("id-doc");
+		$(this).documentGenerator("_editDocument",{id:id});
+	});
+
+	
+
+
+	$( ".inner-wrap" ).delegate( "#name-display", "change", function() {
+		var typeVertical 	= $("#type-vertical").val();
+		var nameVertical 	= $("#name-vertical").val();
+		var nameDisplay 	= $("#name-display").val();
+
+		var params = [];
+		params.push(typeVertical);
+		params.push(nameVertical);
+		params.push(nameDisplay);
+
+		jQuery.ajax({
+			url: basepath+'/index.php/crud/newdocument/blockcontent/get/'+params,
+			type: 'POST',
+			async: true,
+			dataType: 'json',
+			beforeSend: function(xhr){
+				$.fancybox.showLoading();
+			},
+			success: function(json){
+				$("#block-setting").html(json.table);
+			},	
+			complete: function(xhr, textStatus){
+				jQuery.fancybox.hideLoading();
+			}
+		});
+
+	});
+
+
+	$( ".inner-wrap" ).delegate( ".has-tip", "mouseenter mouseleave", function() {
+		$(document).foundation({
+			tooltip: {
+			selector : '.has-tip',
+			additional_inheritable_classes : [],
+			tooltip_class : '.tooltip',
+			touch_close_text: 'tap to close',
+			disable_for_touch: false,
+			tip_template : function (selector, content) {
+				return '<span data-selector="' + selector + '" class="'
+				+ Foundation.libs.tooltip.settings.tooltip_class.substring(1)
+				+ '">' + content + '<span class="nub"></span></span>';
+			}
+			}
+		});
+	});
+
+	
+{% endblock %}

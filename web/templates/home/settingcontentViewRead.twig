@@ -1,0 +1,22 @@
+{% extends "layout.twig" %}
+
+{% block maincontent %}
+	<div class="off-canvas-wrap docs-wrap" data-offcanvas="">
+		<div class="inner-wrap">
+		{{table|raw}}
+		</div>
+	</div>
+{% endblock %}
+
+{% block mainjquery %}
+
+	$( ".inner-wrap" ).delegate( "#save-btn", "click", function() {
+		$("#blockcontent-form-create").documentGenerator("_vertical",{metod:"register"});
+	});
+
+	$( ".inner-wrap" ).delegate( ".update-settingcontent", "click", function() {
+		var id = $(this).attr('id-settingcontent');
+		$(this).documentGenerator("_viewUpdateSettingContent",{metod:"viewUpdate",id:id});
+	});
+	
+{% endblock %}
