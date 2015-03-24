@@ -522,7 +522,7 @@ class ModelNewDocument extends ModelMaster{
 
 		$response->status 	= true;
 		$response->message 	= "The document was generated successfully.";
-		$response->content 	= $this->getDocument();
+		$response->content 	= $this->getDocument(null);
 
 		return $response;
 	}
@@ -545,7 +545,7 @@ class ModelNewDocument extends ModelMaster{
 	}
 
 
-	public function getDocument($queryString=null)
+	public function getDocument($queryString=null,$paginator=null)
 	{
 
 		if($queryString == null ){
@@ -656,8 +656,12 @@ class ModelNewDocument extends ModelMaster{
 			$html.='</tbody>
 						</table></form>';
 		}
-
-		$html.= '';
+		if($paginator==null){
+			$html.= $this->paginator();
+		}else{
+			$html.= $paginator;
+		}
+		
 
 		if($queryString != null ){
 			return $rowContent;

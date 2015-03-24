@@ -51,6 +51,35 @@ class ModelMaster {
 		return $html5;
 	}
 
+	public function paginator($actualPage=0,$table="",$maxRow="1")
+	{
+		$table = "dg_NewDocument";
+		$instance 	= $this->instaceClass("ModelNewDocument","newdocument");
+		$listTable 	= $this->getList("SELECT count(id) AS total FROM {$table}");
+		$totalPage = ceil($listTable->content[0]['total'] / $maxRow );
+
+		$nextPage = ( ($actualPage+1) < $totalPage )? $actualPage+1:1;
+		$prevPage = ( ($actualPage-1) > 0 )? $actualPage-1:0;
+
+		$paginator = '<div class="main-paginator">
+						<div class="pagination">
+							<a href="#" class="first" data-action="first">&laquo;</a>
+							<a href="#" class="previous" data-action="previous" prev-page-numer="'.($prevPage+1).'" >&lsaquo;</a>
+							<input type="text" readonly="readonly" data-max-page="'.$totalPage.'" value="Page '.($actualPage+1).' of  '.$totalPage.' " />
+							<a href="#" class="next" data-action="next" next-page-numer="'.($nextPage+1).'" >&rsaquo;</a>
+							<a href="#" class="last" data-action="last">&raquo;</a>
+						</div>
+					</div>';
+
+		$query = "SELECT * FROM dg_NewDocument GROUP BY id ORDER BY registerDate DESC ";
+		if($actualPage==0){
+			return $paginator;
+		}else{
+			return $instance->getDocument($query,$query);	
+		}
+
+	}
+
 	private function instaceClass($class,$file)
 	{
 		$nameClass 		= $class;
@@ -64,7 +93,14 @@ class ModelMaster {
 		return $instance->prevBlockBlockcontent(4);
 
 	}
-	
+
+	public function paginator($page)
+	{
+		$instance 		= $this->instaceClass("ModelNewDocument","newdocument");
+		return $instance->paginator($page);
+	}
+
+
 	public function getSearch($data)
 	{
 		$instance 		= $this->instaceClass("ModelNewDocument","newdocument");
@@ -277,7 +313,20 @@ public function validateSessionActive()
 		return $response;
 	}
 
-
+	private function getList($query)
+	{
+		$response = new stdClass();
+		try{
+			$list = $this->app['dbs']['mysql_silex']->fetchAll($query);
+			$response->status 	= (count($list) > 0 )? TRUE:FALSE;
+			$response->content 	= (!$response->status)? "Not found search results.":$list;
+			return $response;
+		}catch(Exception $e){
+			$response->status 	= FALSE;
+			$response->content 	= "Error #02: ERROR EN CONSULTA.";
+			return $e->getMessage();
+		}
+	}
 
 
 
