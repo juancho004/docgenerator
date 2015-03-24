@@ -58,7 +58,7 @@
 
 .code {
 	margin: 0px auto;
-	width: 80%;
+	width: auto;
 	padding: 0.5em;
 	background: #eee;
 	color: #333;
@@ -69,6 +69,7 @@
 }
 
 .code-container {
+background: #eee;
 	margin: 0px 0px;
 	padding: 0px;
 	overflow-x: auto;

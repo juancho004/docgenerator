@@ -6116,7 +6116,7 @@ if (!class_exists('TCPDF', false)) {
 			/**
 			Mandatori for download {$dest="FD"}
 			*/
-			#$dest="FD";
+			$dest="FD";
 			switch($dest) {
 				case 'I': {
 					// Send PDF to the standard output

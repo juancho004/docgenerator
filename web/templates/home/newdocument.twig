@@ -34,15 +34,15 @@
 
 	function getToolTipClear(columId)
 	{
-		var textoTooltip = '<a href="#" class="clean-input">Click to clean.</a>';
+		var textoTooltip = '<a href="#" class="clean-input">Click to clear</a>';
 		var positionTool = $('#'+columId).position();
 		columPosition="filter-form";
 
 		if (textoTooltip.length > 0) {
-			jQuery('#'+columPosition).append('<div class="tooltip">' + textoTooltip + '</div>');
-			jQuery("#"+columPosition+" > div.tooltip").css("left", positionTool.left+"px");
-			jQuery("#"+columPosition+" > div.tooltip").css("top", (positionTool.top-40 )+"px");
-			jQuery("#"+columPosition+" > div.tooltip").fadeIn(300);
+			jQuery('#'+columPosition).append('<div class="tooltipClear">' + textoTooltip + '</div>');
+			jQuery("#"+columPosition+" > div.tooltipClear").css("left", positionTool.left+"px");
+			jQuery("#"+columPosition+" > div.tooltipClear").css("top", (positionTool.top-40 )+"px");
+			jQuery("#"+columPosition+" > div.tooltipClear").fadeIn(300);
 		}
 
 		$('.clean-input').click(function(){
@@ -113,7 +113,7 @@
 			ajaxFilter();
 		}
 		
-		jQuery("#filter-form > div.tooltip").fadeOut(300).delay(300).queue(function () {
+		jQuery("#filter-form > div.tooltipClear").fadeOut(300).delay(300).queue(function () {
 			jQuery(this).remove();
 			jQuery(this).dequeue();
 		});

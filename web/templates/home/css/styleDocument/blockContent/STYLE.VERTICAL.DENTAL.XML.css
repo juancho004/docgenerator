@@ -48,6 +48,7 @@
 	padding: 10px;
 	float: left;
 	border: 1px solid #BBB
+  height: auto;
 }
 
 .box-title-rigth {

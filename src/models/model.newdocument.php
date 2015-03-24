@@ -108,6 +108,9 @@ class ModelNewDocument extends ModelMaster{
 		$idBlock 	= $this->getList("SELECT id_BlockContent FROM dg_NewDocument WHERE id = {$id}");
 		$idBlock 	= $idBlock->content[0]['id_BlockContent'];
 		$listColum 	= "id,".implode(",", $this->getListColumsTable($idBlock));
+
+		$typeVertical 	= $this->getList("SELECT id_Vertical FROM dg_BlockContent WHERE id = {$idBlock} ");
+		$typeVertical 	= $typeVertical->content[0]['id_Vertical'];
 		
 		$getListContent = $this->getList("SELECT {$listColum} FROM dg_NewDocument WHERE id = {$id}");
 		$params = '<form id="form-setting-display-update" class="row">';
@@ -117,9 +120,23 @@ class ModelNewDocument extends ModelMaster{
 			if($key == "id"){
 				$params.= '<input id="'.$key.'" type="hidden" placeholder="" name="'.$key.'" value="'.$display.'"/>';
 			}else{
+
+
+				switch ($key) {
+					case 'domain':
+						$typeValidation = 'class="string"';
+					break;
+					
+					default:
+						$typeValidation = 'class="numeric"';
+					break;
+				}
+
+				$labelName = ( ($typeVertical == 5) && ($key=="md") )? "vmProdId":$key;
+
 				$params.= '<div class="block-input large-6 columns" >
-						<label>'.strtoupper($key).':
-							<input id="'.$key.'" type="text" placeholder="" name="'.$key.'" value="'.$display.'"/>
+						<label>'.strtoupper($labelName).':
+							<input id="'.$key.'" type="text" placeholder="" name="'.$key.'" value="'.$display.'" '.$typeValidation.'/>
 						</label>
 					</div>';
 			}

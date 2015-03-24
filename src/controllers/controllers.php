@@ -43,7 +43,7 @@ exit;
 
 $app->match('/debug', function () use ( $app ,$master ) {
 
-	$getHtml = $master->downloadDocumentDebug(36);
+	$getHtml = $master->downloadDocumentDebug(35);
 	require_once PATH_SRC.DS.'PDF'.DS.'html2pdf.class.php';
 	try
 	{
