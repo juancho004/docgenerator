@@ -135,10 +135,7 @@ $app->match('/document/{option}/{id}', function ($option,$id) use ( $app ,$maste
 		case 'search':
 			return $app->json( array( "content" => $master->getSearch($_POST['data']) ) );
 		break;
-		
-		case 'paginator':
-			return $app->json( array( "content" => $master->paginator($_POST['page']) ) );
-		break;
+
 	}
 
 	return new Response(

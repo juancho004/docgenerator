@@ -3362,10 +3362,10 @@ meta.foundation-mq-topbar {
 
 ul.pagination {
   display: block;
-  min-height: 1.5rem;
+  min-height: 26px;
   margin-left: -0.3125rem; }
   ul.pagination li {
-    height: 1.5rem;
+    height: auto;
     color: #222222;
     font-size: 0.875rem;
     margin-left: 0.3125rem; }

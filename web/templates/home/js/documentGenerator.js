@@ -296,6 +296,8 @@
                     $('body').append('<div id="added2cart" class="reveal-modal small" data-reveal><center><h5>'+ json.message +'</h5></center><a class="close-reveal-modal">&#215;</a></div>');
                     $('#added2cart').foundation('reveal', 'open');
                     $('.tooltip').remove();
+                    methods._getPaginator();
+
                 },
                 complete: function(xhr, textStatus){
                     $.fancybox.hideLoading();
@@ -452,6 +454,7 @@
                 },
                 success: function(json){
                     $('.inner-wrap').html(json.content);
+                    methods._getPaginator();
                 },
                 complete: function(xhr, textStatus){
                     $.fancybox.hideLoading();
@@ -492,6 +495,42 @@
                     $.fancybox.hideLoading();
                 }
             });
+        },
+        _getPaginator : function()
+        {
+            $('#table-document-list tfoot th').each( function (index) {
+            var title = $('#table-document-list thead th').eq( $(this).index() ).text();
+                switch(index) {
+                    case 0:
+                    case 6:
+                    case 7:
+                    case 8:
+                    break;
+                    default:
+                     $(this).html( '<input class="hs-'+index+'" type="text" placeholder="Search '+title+'" />' );
+                    break;
+                }
+            } );
+
+            // DataTable
+            var table = $('#table-document-list').DataTable(
+                {
+                   "aaSorting": [1, "asc"],
+                   "aLengthMenu": [5, 10, 25, 50, 100, 500, 1000],
+                   "aaSortingFixed": [0],
+                   "bSort": false
+                }
+            );
+
+            // Apply the search
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+                    table.column( colIdx ).search( this.value ).draw();
+                });
+            });
+
+
+
         }
 
 

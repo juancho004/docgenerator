@@ -522,7 +522,7 @@ class ModelNewDocument extends ModelMaster{
 
 		$response->status 	= true;
 		$response->message 	= "The document was generated successfully.";
-		$response->content 	= $this->getDocument(null);
+		$response->content 	= $this->getDocument();
 
 		return $response;
 	}
@@ -545,11 +545,11 @@ class ModelNewDocument extends ModelMaster{
 	}
 
 
-	public function getDocument($queryString=null,$paginator=null)
+	public function getDocument($queryString=null)
 	{
 
 		if($queryString == null ){
-			$query = "SELECT * FROM dg_NewDocument GROUP BY id ORDER BY registerDate DESC";
+			$query = "SELECT * FROM dg_NewDocument GROUP BY id ORDER BY status, registerDate ASC";
 		}else{
 			$query = $queryString;
 		}
@@ -561,6 +561,38 @@ class ModelNewDocument extends ModelMaster{
 
 		$html = '';
 		$rowContent = '';
+
+/*
+<thead>
+<tr>
+<th ><center style="line-height: 40px;"><span>SELECT ALL</span> <input id="selecctall"  type="checkbox" ></center></th>
+<th width="10%" id="id_BlockContent" class="colum-search">
+<span id="t-v" class="show-tool-tip" >VERTICAL</span>
+<input class="id_BlockContent input-search hidden-input-search" type="text" name="id_BlockContent" value="">
+</th>
+<th width="10%" id="id_typeFile" class="colum-search" >
+<span id="t-d" class="show-tool-tip" >DISPLAY</span>
+<input class="id_typeFile input-search hidden-input-search" type="text" name="id_typeFile" value="">
+</th>
+<th width="10%" id="campaign" class="colum-search" >
+<span id="t-c" class="show-tool-tip" >CAMPAIGN</span>
+<input class="campaign input-search hidden-input-search" type="text" name="campaign" value="">
+</th>
+<th width="10%" id="publisherId" class="colum-search" >
+<span id="t-p" class="show-tool-tip" >PUBLISHERID</span>
+<input class="publisherId input-search hidden-input-search" type="text" name="publisherId" value="">
+</th>
+<th width="10%" id="displayId" class="colum-search" >
+<span id="t-di" class="show-tool-tip" >DISPLAYID</span>
+<input class="displayId input-search hidden-input-search" type="text" name="displayId" value="">
+</th>
+<th class="tour-status" >STATUS</th>
+<th class="tour-edit" >EDIT</th>
+<th class="tour-download" >DOWNLOAD</th>
+</tr>
+</thead>
+*/
+
 
 			if( !$getListContent->status ){
 				$html.= '<h5 style="text-align:center;">'.$getListContent->content.'</h5>';
@@ -578,35 +610,37 @@ class ModelNewDocument extends ModelMaster{
 				}
 					$html.= '<div class="nav-bar"><p id="generate-selected-document" class="button tiny success" >Generate selected documents</p></div>
 							<form id="filter-form" >
-							<table id="table-document-list" style=" width:90%" align="center">
+							<table id="table-document-list" style=" width:95%" align="center">
+
 							<thead>
 								<tr>
-									<th ><center style="line-height: 40px;"><span>SELECT ALL</span> <input id="selecctall"  type="checkbox" ></center></th>
-									<th width="10%" id="id_BlockContent" class="colum-search">
-										<span id="t-v" class="show-tool-tip" >VERTICAL</span>
-										<input class="id_BlockContent input-search hidden-input-search" type="text" name="id_BlockContent" value="">
-									</th>
-									<th width="10%" id="id_typeFile" class="colum-search" >
-										<span id="t-d" class="show-tool-tip" >DISPLAY</span>
-										<input class="id_typeFile input-search hidden-input-search" type="text" name="id_typeFile" value="">
-									</th>
-									<th width="10%" id="campaign" class="colum-search" >
-										<span id="t-c" class="show-tool-tip" >CAMPAIGN</span>
-										<input class="campaign input-search hidden-input-search" type="text" name="campaign" value="">
-									</th>
-									<th width="10%" id="publisherId" class="colum-search" >
-										<span id="t-p" class="show-tool-tip" >PUBLISHERID</span>
-										<input class="publisherId input-search hidden-input-search" type="text" name="publisherId" value="">
-									</th>
-									<th width="10%" id="displayId" class="colum-search" >
-										<span id="t-di" class="show-tool-tip" >DISPLAYID</span>
-										<input class="displayId input-search hidden-input-search" type="text" name="displayId" value="">
-									</th>
+									<th style="width: 130px !important;" ><center style="line-height: 40px;"><span>SELECT ALL</span> <input id="selecctall"  type="checkbox" ></center></th>
+									<th ><center style="line-height: 40px;"><span>VERTICAL</span></center></th>
+									<th ><center style="line-height: 40px;"><span>DISPLAY</span></center></th>
+									<th ><center style="line-height: 40px;"><span>CAMPAIGN</span></center></th>
+									<th ><center style="line-height: 40px;"><span>PUBLISHERID</span></center></th>
+									<th ><center style="line-height: 40px;"><span>DISPLAYID</span></center></th>
 									<th class="tour-status" >STATUS</th>
 									<th class="tour-edit" >EDIT</th>
 									<th class="tour-download" >DOWNLOAD</th>
 								</tr>
 							</thead>
+							
+							<tfoot class="header-search">
+								<tr>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
+								</tr>
+							</tfoot>
+
+
 							<tbody id="data-document">';
 
 			
@@ -627,7 +661,7 @@ class ModelNewDocument extends ModelMaster{
 
 				if($queryString == null ){
 					$html.= '
-							<tr class="block-option" >
+							<tr id="item-'.$key.'" class="block-option" >
 								<td><center><input class="document-item" type="checkbox" name="generate[]" value="'.$doc['id'].'"></center></td>
 								<td><center>'.$doc['nameVertical'].'</center></td>
 								<td><center>'.$doc['nameFile'].'</center></td>
@@ -640,7 +674,7 @@ class ModelNewDocument extends ModelMaster{
 							</tr>';
 				}else{
 					$rowContent.= '
-							<tr class="block-option" >
+							<tr id="item-'.$key.'" class="block-option" >
 								<td><center><input class="document-item" type="checkbox" name="generate[]" value="'.$doc['id'].'"></center></td>
 								<td><center>'.$doc['nameVertical'].'</center></td>
 								<td><center>'.$doc['nameFile'].'</center></td>
@@ -656,12 +690,7 @@ class ModelNewDocument extends ModelMaster{
 			$html.='</tbody>
 						</table></form>';
 		}
-		if($paginator==null){
-			$html.= $this->paginator();
-		}else{
-			$html.= $paginator;
-		}
-		
+			$html.= $this->getPaginator();
 
 		if($queryString != null ){
 			return $rowContent;

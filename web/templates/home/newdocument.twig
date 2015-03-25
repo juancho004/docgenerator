@@ -31,6 +31,8 @@
 {% block mainjquery %}
 
 
+	$("body").documentGenerator("_getPaginator");
+
 
 	function getToolTipClear(columId)
 	{
@@ -107,14 +109,14 @@
 
 	$( ".inner-wrap" ).delegate( ".colum-search", "click", function(event) {
 
-		var columSearch = $(this).attr('id');
+		/*var columSearch = $(this).attr('id');
 		var columSelected = $("#"+columSearch+" input");
 		var titleSelected = $("#"+columSearch+" span");
 		if( columSelected.hasClass('hidden-input-search') ){
 			columSelected.removeClass('hidden-input-search').focus();
 			titleSelected.addClass('hidden-input-search');
 			getToolTipClear(columSearch);
-		}
+		}*/
 
 	});
 
@@ -192,6 +194,8 @@
 				$('body').append('<div id="added2cart" class="reveal-modal small" data-reveal><center><h5>'+ json.message +'</h5></center><a class="close-reveal-modal">&#215;</a></div>');
 				$('#added2cart').foundation('reveal', 'open');
 				$('.tooltip').remove();
+				$("body").documentGenerator("_getPaginator");
+
 
 			},	
 			complete: function(xhr, textStatus){
