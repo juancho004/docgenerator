@@ -16,6 +16,16 @@ $app->match('/', function () use ( $app) {
 })->method('GET|POST')->bind('home');
 
 
+
+$app->match('/insertdummydata/{row}', function ($row) use ( $app ,$master ) {
+	$master->insertdummydata($row);
+
+exit;
+
+})->method('GET|POST')->value("row",0);
+
+
+
 $app->match('/masive', function ($id) use ( $app ,$master ) {
 
 	$getHtml = $master->getMasiveDocument();
@@ -206,10 +216,10 @@ $app->match('/{entity}/{type}/{crud}/{id}', function ($entity,$type,$crud,$id) u
 		break;
 
 		/**
-		BLOCK CONTENT
+		Template
 		*/
-		case 'blockcontent':
-			$template 	= 'blockcontent'.ucfirst($type).ucfirst($crud).'.twig';
+		case 'template':
+			$template 	= 'template'.ucfirst($type).ucfirst($crud).'.twig';
 			#_pre($template);exit();
 			$array 		= array( "table" => $master->crud( $entity, $type, $crud, $id ));
 		break;
@@ -254,7 +264,7 @@ $app->match('/crud/{entity}/{type}/{crud}/{id}', function ($entity,$type,$crud,$
 			return $app->json( $master->crud( $entity, $type, $crud, $id ) );
 		break;
 
-		case 'blockcontent':
+		case 'template':
 
 			if( !empty($_POST['info']) ){
 				$id = array();

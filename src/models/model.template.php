@@ -1,12 +1,12 @@
 <?php 
 /**
- * Class BlockContent .
+ * Class Template .
  *
  * @author Jcbarreno <jcbarreno.b@gmail.com>
  * @version 1.0
  * @package 
  */
-class ModelBlockcontent extends ModelMaster{
+class ModelTemplate extends ModelMaster{
 
 	protected $prefix;
 	protected $app;
@@ -82,7 +82,7 @@ class ModelBlockcontent extends ModelMaster{
 		return $cotent;
 	}
 
-	public function viewCreateBlockcontent($params=false)
+	public function viewCreateTemplate($params=false)
 	{
 		$valueDisplayName 	= "";
 		$inputIdDisplay 	= "";
@@ -205,7 +205,7 @@ class ModelBlockcontent extends ModelMaster{
 		return $htmlBlockContentType;
 	}
 
-	public function prevBlockBlockcontent($id)
+	public function prevBlockTemplate($id)
 	{
 		$list = $this->getList("SELECT content, cssSourcePath FROM dg_BlockContent WHERE id = ".$id);
 		$file 			= fopen ($list->content[0]['cssSourcePath'], "r");
@@ -227,7 +227,7 @@ class ModelBlockcontent extends ModelMaster{
 
 	}
 
-	public function viewReadBlockcontent($params=false)
+	public function viewReadTemplate($params=false)
 	{
 
 		$query = "SELECT bc.id, bv.name AS blockVertical, v.name AS nameVertical, tf.name AS typeFile, bc.content,bc.cssSourcePath
@@ -257,16 +257,28 @@ class ModelBlockcontent extends ModelMaster{
 		if( !$list->status ){
 			$html.= '<div class="space-bar"><h5 style="text-align:center;">'.$list->content.'</h5></div>';
 		}else{
-				$html.= '<table style=" width:80%" align="center">
+				$html.= '<table id="table-template-list" style=" width:100%" align="center">
 						<thead>
 							<tr>
-								<th width="40%">Vertical Name</th>
-								<th width="40%">Display</th>
-								<th width="10%">REMOVE</th>
-								<th width="10%">EDIT</th>
+								<th ><center style="line-height: 40px;"><span>VERTICAL NAME</span></center></th>
+								<th ><center style="line-height: 40px;"><span>DISPLAY</span></center></th>
+								<th ><center style="line-height: 40px;">REMOVE</th>
+								<th ><center style="line-height: 40px;">EDIT</th>
 							</tr>
 						</thead>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th></th>
+							<th></th>
+								<th></th>
+							</tr>
+						</tfoot>
 						<tbody>';
+
+					
+
+
 
 
 			foreach ($list->content as $key => $value) {
@@ -301,7 +313,7 @@ class ModelBlockcontent extends ModelMaster{
 		return $this->insert($query,"dg_DisplayType");
 	}
 
-	public function viewUpdateUpdateBlockcontent($params)
+	public function viewUpdateUpdateTemplate($params)
 	{
 
 		$list = $this->getList("SELECT * FROM {$this->tabBlockContent} WHERE id = {$params}");
@@ -315,7 +327,7 @@ class ModelBlockcontent extends ModelMaster{
 				$response->status = $valueBC['status'];
 			}
 		}
-		return array( "content" => $this->viewCreateBlockcontent($response) );
+		return array( "content" => $this->viewCreateTemplate($response) );
 	}
 
 	private function asignNameFile($params, $onlyName=false)
@@ -358,7 +370,7 @@ class ModelBlockcontent extends ModelMaster{
 
 	}
 
-	public function updateBlockUpdateBlockcontent($params=false)
+	public function updateBlockUpdateTemplate($params=false)
 	{
 
 		$response = new stdClass();
@@ -384,7 +396,7 @@ class ModelBlockcontent extends ModelMaster{
 
 		if( $update->status ){
 			$response->status = true;
-			$response->content = $this->viewReadBlockContent();
+			$response->content = $this->viewReadTemplate();
 
 			$pathFile = $this->asignNameFile($params);
 

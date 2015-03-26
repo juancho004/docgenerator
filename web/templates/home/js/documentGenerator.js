@@ -156,7 +156,7 @@
         _viewUpdateBlockcontent : function(params){
 
             $.ajax({
-                url: basepath+'/index.php/crud/blockcontent/'+params.metod+'/update/'+params.id,
+                url: basepath+'/index.php/crud/template/'+params.metod+'/update/'+params.id,
                 type: 'POST',
                 async: true,
                 dataType: 'json',
@@ -176,7 +176,7 @@
         },
         _updateBlockContent : function(data){
             $.ajax({
-                url: basepath+'/index.php/crud/blockcontent/update/update/false',
+                url: basepath+'/index.php/crud/template/update/update/false',
                 type: 'POST',
                 async: true,
                 data: {
@@ -200,7 +200,7 @@
         _prevBlockContent : function(data){
 
             $.ajax({
-                url: basepath+'/index.php/crud/blockcontent/prev/block/'+data.id,
+                url: basepath+'/index.php/crud/template/prev/block/'+data.id,
                 type: 'POST',
                 async: true,
                 dataType: 'json',
@@ -507,7 +507,7 @@
                     case 8:
                     break;
                     default:
-                     $(this).html( '<input class="hs-'+index+'" type="text" placeholder="Search '+title+'" />' );
+                     $(this).html( '<input class="hs-'+index+'" type="search" placeholder="Search '+title+'" />' );
                     break;
                 }
             } );
@@ -516,7 +516,38 @@
             var table = $('#table-document-list').DataTable(
                 {
                    "aaSorting": [1, "asc"],
-                   "aLengthMenu": [5, 10, 25, 50, 100, 500, 1000],
+                   "aLengthMenu": [10, 25, 50, 100, 500, 1000],
+                   "bSort": false
+                }
+            );
+
+            // Apply the search
+            table.columns().eq( 0 ).each( function ( colIdx ) {
+                $( 'input', table.column( colIdx ).footer() ).on( 'keyup change', function () {
+                    table.column( colIdx ).search( this.value ).draw();
+                });
+            });
+        }
+        ,
+        _getPaginatorTemplate : function()
+        {
+            $('#table-template-list tfoot th').each( function (index) {
+            var title = $('#table-template-list thead th').eq( $(this).index() ).text();
+                switch(index) {
+                    case 2:
+                    case 3:
+                    break;
+                    default:
+                     $(this).html( '<input class="hs-'+index+'" type="text" placeholder="Search '+title+'" />' );
+                    break;
+                }
+            } );
+
+            // DataTable
+            var table = $('#table-template-list').DataTable(
+                {
+                   "aaSorting": [1, "asc"],
+                   "aLengthMenu": [10, 25, 50, 100, 500],
                    "aaSortingFixed": [0],
                    "bSort": false
                 }
@@ -528,9 +559,6 @@
                     table.column( colIdx ).search( this.value ).draw();
                 });
             });
-
-
-
         }
 
 

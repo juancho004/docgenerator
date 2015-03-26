@@ -608,9 +608,9 @@ class ModelNewDocument extends ModelMaster{
 					$document[$key]['displayId'] 	= $listContent['displayId'];
 					$document[$key]['status'] 		= $listContent['status'];
 				}
-					$html.= '<div class="nav-bar"><p id="generate-selected-document" class="button tiny success" >Generate selected documents</p></div>
+					$html.= '<div class="nav-bar"><p id="generate-selected-document" class="" >Generate selected documents</p></div>
 							<form id="filter-form" >
-							<table id="table-document-list" style=" width:95%" align="center">
+							<table id="table-document-list" style=" width:100%" align="center">
 
 							<thead>
 								<tr>
@@ -649,7 +649,7 @@ class ModelNewDocument extends ModelMaster{
 				switch ($doc['status']) {
 					case 0:
 					case '0':
-						$status = '<span data-tooltip data-options="hover_delay: 50;" class="has-tip" title="Click to generate document" ><img class="generate-doc" id-doc="'.$doc['id'].'" src="'.$this->app['source'].'home/foundation-icons/svgs/fi-clock.svg" ></span>';
+						$status = '<span data-tooltip data-options="hover_delay: 50;" class="has-tip" title="Click to generate document" ><img style="cursor:pointer" class="generate-doc" id-doc="'.$doc['id'].'" src="'.$this->app['source'].'home/foundation-icons/svgs/fi-clock.svg" ></span>';
 						$download = '<img class="not-complete-doc" src="'.$this->app['source'].'home/foundation-icons/svgs/fi-key.svg" >';
 					break;
 					

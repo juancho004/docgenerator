@@ -16,12 +16,30 @@ class ModelMaster {
 		$this->app 	= $app;
 	}
 
+	public function make_seed()
+	{
+		list($usec, $sec) = explode(' ', microtime());
+		return (float) $sec + ((float) $usec * 100000);
+	}
+
+	public function insertdummydata($row)
+	{
+		mt_srand($this->make_seed());
+		$randval = mt_rand();
+
+		for ($i=0; $i < $row; $i++) { 
+			$query = "INSERT INTO dg_NewDocument (id, id_BlockContent, id_typeFile, name, css, content, registerDate, lastChange, status, campaign, displayId, publisherId, md, domain) VALUES (NULL, '19', '1', '', '', '', '2015-03-24 12:43:26', '2015-03-26 09:44:09', '1', '".($randval+rand(1,900))."', '".($randval+rand(1,100))."', '".($randval+rand(1,300))."', '".($randval+rand(1,800))."', 'asedasd.com')";
+			$register = $this->insert($query,"dg_NewDocument");
+			echo $i.",<br>";
+		}
+		exit;
+	}
 
 
 	protected function contentHtml5($content="",$title="",$subMenu="")
 	{
 		$html5 ='<header>
-					<div class="page-width">
+					<div class="page-main">
 						<a href="#" rel="home" class="top-logo" title="Katch" role="banner">
 							<img src="'.$this->app['source'].'home/images/white-katch-logo.svg" alt="Katch">
 						</a>
@@ -35,28 +53,25 @@ class ModelMaster {
 					</div>
 				</header>';
 		$html5.='<div class="document medium-1">
-					
+					<div class="page-main">
 						<section class="main-content">
 							<div class="header-title">
 							<h1>'.$title.'</h1>
 							</div>
 							'.$content.'
 						</section>
+					</div>
 				</div>';
 		$html5.='<footer>
-						<p class="copyright">
-							<a href="http://katch.com/">Katch</a> © '.date("Y").'
-						</p>
-		</footer>';
+				<div class="page-main"></div>
+				</footer>';
 		return $html5;
 	}
 
 	public function getPaginator()
 	{
 		$paginator = '';
-
-			return $paginator;
-		
+		return $paginator;
 	}
 
 	private function instaceClass($class,$file)
@@ -68,7 +83,7 @@ class ModelMaster {
 
 	public function debug()
 	{
-		$instance 		= $this->instaceClass("ModelBlockcontent","blockcontent");
+		$instance 		= $this->instaceClass("ModelBlockcontent","template");
 		return $instance->prevBlockBlockcontent(4);
 
 	}
@@ -161,8 +176,7 @@ class ModelMaster {
 	}
 
 	public function crud($entity=false, $type=false, $crud=false, $params=false)
-	{
-		
+	{		
 		$response		= "";
 		$nameClass 		= "Model".ucfirst($entity);
 		require_once PATH_SRC.DS.'models'.DS.'model.'.$entity.'.php';
@@ -170,7 +184,7 @@ class ModelMaster {
 		$instance 		= new $nameClass($this->app,$this->prefix);
 		$nameFunction 	= $type.ucfirst($crud).ucfirst($entity);#view,Register
 		
-		#_pre($nameFunction);exit;
+		#=_pre($nameFunction);exit;
 		if( $type == "create" || $type == "update" || $type == "register" ){
 			$arrayParams = array();
 			parse_str($params, $arrayParams);
@@ -192,7 +206,7 @@ class ModelMaster {
 				return $instance->$nameFunction($arrayParams);
 			break;
 
-			case 'blockcontent':
+			case 'template':
 				return $instance->$nameFunction($arrayParams);
 			break;
 
@@ -300,7 +314,22 @@ public function validateSessionActive()
 		}
 	}
 
-
+	private function insert($query,$table)
+	{
+		$response = new stdClass();
+		try{
+			$this->app['dbs']['mysql_silex']->executeQuery($query);
+			$id_tab 				= $this->app['db']->lastInsertId('id');
+			$response->status 	= TRUE;
+			$response->message 	= "Registro creado exitosamente";
+			$response->id 		= $id_tab;
+			return $response;
+		}catch(Exception $e){
+			$response->status 	= FALSE;
+			$response->message 	= "Error #01: No se pudo insertar en en la tabla {$table}.";
+			return $e->getMessage();
+		}
+	}
 
 }
 ?>

@@ -24,9 +24,9 @@ $.extend( DataTable.ext.classes, {
 /* Set the defaults for DataTables initialisation */
 $.extend( true, DataTable.defaults, {
 	dom:
-		"<'paginator-header'<'small-6 columns'l><'small-6 columns'f>r>"+
+		"<'paginator-header'<'show-entries'l><'search-row'f>r>"+
 		"t"+
-		"<'row'<'small-6 columns'i><'small-6 columns'p>>",
+		"<'paginator-footer'<'show-entries'i><'search-row'p>>",
 	renderer: 'foundation'
 } );
 

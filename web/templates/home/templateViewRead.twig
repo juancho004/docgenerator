@@ -10,6 +10,8 @@
 
 {% block mainjquery %}
 
+	$("body").documentGenerator("_getPaginatorTemplate");
+
 	$( ".inner-wrap" ).delegate( "#save-btn", "click", function() {
 		$("#blockcontent-form-create").documentGenerator("_vertical",{metod:"register"});
 	});
